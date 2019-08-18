@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>珊瑚2199</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+
+  <!-- style标签中写的就是css-->
+  <style>
+    [v-cloak]{
+       dispaly: none;
+    }
+  </style>
+</head>
+
+<body id="blog">
+
+    
+<hr>
+<!-- nav start -->
+<nav class="am-g am-g-fixed blog-fixed blog-nav">
+<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li class="am-active"><a href="lw-index.html">首页</a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          首页布局 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="lw-index.html">1. blog-index-standard</a></li>         
+          <li><a href="lw-index-nosidebar.html">2. blog-index-nosidebar</a></li>
+          <li><a href="lw-index-center.html">3. blog-index-layout</a></li>
+          <li><a href="lw-index-noslider.html">4. blog-index-noslider</a></li>
+        </ul>
+      </li>
+      <li><a href="lw-article.html">标准文章</a></li>
+      <li><a href="lw-img.html">图片库</a></li>
+      <li><a href="lw-article-fullwidth.html">全宽页面</a></li>
+      <li><a href="lw-timeline.html">存档</a></li>
+    </ul>
+    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
+      <div class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+      </div>
+    </form>
+  </div>
+</nav>
+<hr>
+<!-- nav end -->
+
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed" id="app">
+    <div class="am-u-md-8 am-u-sm-12" v-show="blog.blog_id == null">
+
+        <article class="am-g blog-entry-article" v-for="blog in blogs" v-cloak>
+           
+            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
+              <span><a href="" class="blog-color">{{tag_id2name(blog.tag_id)}} &nbsp;</a></span>
+                <span> @{{author}} &nbsp;</span>
+                <span>{{blog.creat_time}}</span>
+                <!--v-on:click 把当前的HTML标签关联上一个鼠标点击事件-->
+                <h1><a v-on:click="get_blog(blog.blog_id)">{{blog.title}}</a></h1>
+                <p><a href="" class="blog-continue">continue reading</a></p>
+            </div>
+        </article>
+        
+    </div>
+    <div class="am-u-md-8 am-u-sm-12" v-show="blog.blog_id != null">
+      <!--先使用editor.md 完成 markdown到HTML的转换-->
+      <article id="blog_view">
+        博客详细内容
+      </article>
+    </div>
+
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+        <div class="blog-sidebar-widget blog-bor" v-cloak>
+            <h2 class="blog-text-center blog-title"><span>About ME</span></h2>
+            <img src="assets/i/123.jpg" alt="about me" class="blog-entry-img" >
+            <!--插值表达式-->
+            <p>{{author}}</p>
+            <p>
+        敲代码，能给我幸福感
+        </p><p>能给我幸福感的唯有敲代码</p>
+        </div>
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-text-center blog-title"><span></span></h2>
+            <p>
+                <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
+                <a href=""><span class="am-icon-github am-icon-fw blog-icon"></span></a>
+                <a href=""><span class="am-icon-weibo am-icon-fw blog-icon"></span></a>
+                <a href=""><span class="am-icon-reddit am-icon-fw blog-icon"></span></a>
+                <a href=""><span class="am-icon-weixin am-icon-fw blog-icon"></span></a>
+            </p>
+        </div>
+        <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
+            <h2 class="blog-title"><span>标签</span></h2>
+            <div class="am-u-sm-12 blog-clear-padding" v-cloak>
+            <a href="" class="blog-tag" v-for="tag in tags">{{tag.tag_name}}</a>
+            
+            </div>
+        </div>
+        
+    </div>
+</div>
+<!-- content end -->
+
+
+
+  <footer class="blog-footer">
+    
+    <div class="blog-text-center">© 2019/8/2 我们都是好孩子</div>  
+  </footer>
+
+
+
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+  var app = new Vue(
+    {
+      //el 表示app这个Vue对象和哪个html元素关联上
+      el: '#app',
+      data:{
+        //data表示所有需要在页面上动态变化的数据
+        //把js中的数据和界面上的内容关联到一起，就是利用上面的插值表达式，我们称之为数据绑定过程
+        author: "逆行者",
+        blogs:[
+          {
+            title: "第一篇博客",
+            tag_id: 1,
+            creat_time: "2019/8/2"
+          },
+          {
+            title: "第二篇博客",
+            tag_id: 2,
+            creat_time: "2019/8/3"
+          }
+        ],
+        tags:[
+          {
+            tag_id: 1,
+            tag_name: "C语言"
+          },
+          {
+            tag_id: 2,
+            tag_name: "C++",
+          }
+        ],
+        
+        //blog对象用来保存当前页面上展示的博客的详细内容
+        blog:{
+          blog_id: null,
+          title: null,
+          content: null,
+          create_time: null,
+          tag_id: null,
+        }
+      },
+      methods:{
+        tag_id2name(tag_id){
+          //this访问当前的app对象
+          //this.tags 就相当于上面定义的标签数组
+          for(var index in this.tags)  //这里面的index为数组下标
+          {
+            if(this.tags[index].tag_id == tag_id)
+            {
+              return this.tags[index].tag_name;
+            }
+          }
+          return "默认分类"
+        },
+        get_blogs(tag_id)
+        {
+          var url = "/blog";
+          if(tag_id != null)
+          {
+            url = "/blog/?tag_id=" + tag_id;
+          }
+          //最核心的操作，访问http服务器数据
+          //ajax（用于前后端交互），原生api特别难用
+          //此处我们使用 JQuery提供的 api
+
+          $.ajax({
+            url: url,
+            type: "get",
+            context: this,//此处的this 表示vue对象
+            success: function(data,status){
+              //data表示响应的body数据
+              //status表示响应的状态码
+              //请求执行成功之后要执行这个代码，在这个代码中更新数据。
+              //如果不设置上面的context，此时直接使用this.blogs是会出错的
+              //因为此时的this表示的是$这样的jquery对象   而不是vue对象
+
+              this.blogs = data;
+            }
+          })
+        },
+        init(){
+          //1.从服务器上获取tag
+          $.ajax({
+            type: "get",
+            url: "/tag",
+            context: this,
+            success: function(data,status){
+              this.tags = data;
+              //2.从服务器上获取博客
+              //更建议把get_blogs 写到回调函数内部
+              //因为需要先获取tag信息 然后再获得博客列表
+              //否则tag_id和tag_name之间的映射关系无法正确建立
+              
+              this.get_blogs();
+            }
+          
+      
+          })
+
+        },
+        //点击博客标题的时候来调用这个函数，获取博客的详细内容
+        get_blog(blog_id)
+        {
+          $.ajax({
+            url: "/blog/" + blog_id,
+            type: "get",
+            content: this,
+            success: function(data, status){
+              //此时得到的blog.content是markdown格式的数据
+              this.blog = data;
+              //把这个markdown格式的数据转换成HTML，并且显示到界面上
+            }
+          })
+        }
+      },
+    }
+  );
+
+//初始化的获取数据操作
+app.init();
+</script>
+</body>
+</html>
